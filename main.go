@@ -22,11 +22,6 @@ var albums = []album{
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
 }
 
-// getAlbums responds with the list of all albums as JSON.
-func getAlbums(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, albums)
-}
-
 func getIndexPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", nil)
 }
@@ -38,7 +33,29 @@ func main() {
 	router.LoadHTMLGlob("html/*.html")
 
 	router.GET("/", getIndexPage)
-	router.GET("/albums", getAlbums)
+
+	router.GET("/student", listStudents)
+	router.GET("/student/:studentId", listStudents)
+
+	router.POST("/student", editStudent)
+	router.PUT("/student", editStudent)
+
+	router.DELETE("/student", deleteStudent
 
 	router.Run(":8080")
 }
+
+// getAlbums responds with the list of all albums as JSON.
+func listStudents(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, albums)
+}
+
+func editStudent(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, albums)
+}
+
+
+func deleteStudent(c *gin.Context) {
+	c.IndentedJSON(http.StatusOK, albums)
+}
+
