@@ -6,37 +6,32 @@ class MyForm extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        activeObj : this.props.activeObj? this.props.activeObj :{
-          id: "",
-          fullname: "",
-          age: "",
-          mark: "",
-          email: ""
-        }
+        activeObj : this.props.activeObj? this.props.activeObj :this.newActiveObj()
       }     
       this.handleInputChange = this.handleInputChange.bind(this);
+      this.reset = this.reset.bind(this);
+      this.submit = this.submit.bind(this);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.activeObj != null && this.props.activeObj== null)
+        this.setState({activeObj: this.newActiveObj()});
     }
     
-    theID = 200;
     handleInputChange(inputState, event) {
       this.setState(prevState => {
         let newState = Object.assign({}, prevState);
         newState.activeObj[inputState] = event.target.value;
         return newState;
       });
-
-      this.theID ++;
     }
 
-    // componentDidUpdate() {
-    //   console.log("COMPONNT DID UPDATE!!!!!");
-    // }
 
     static getDerivedStateFromProps(props, state){
       // This means a new student get selected from the list
       if (props.activeObj != null) {
         return {activeObj: props.activeObj}
-      }
+      } 
 
     return null;
     }
@@ -46,12 +41,11 @@ class MyForm extends React.Component {
             <Form method="POST" action="store" onSubmit={this.submit.bind(this)}>
 
               <Form.Group className="mb-3" controlId="fullname">
-                <Form.Label>Student name {this.state.activeObj?"(" + JSON.stringify(this.state.activeObj )+ ")": "NULL HERE !" }</Form.Label>
+                <Form.Label>Student name</Form.Label>
                 <Form.Control type="text" placeholder="Full name" value={this.state.activeObj?.fullname || ""} required onChange={(e)=>this.handleInputChange('fullname', e)} />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
               </Form.Group>
   
-              <label>THE ID: {this.state.activeObj?.id}</label>
               <Form.Group className="mb-3" controlId="email">
                 <Form.Label>Email</Form.Label>
                 <InputGroup hasValidation>
@@ -85,7 +79,7 @@ class MyForm extends React.Component {
               <input type="hidden" name="id" value={this.state.activeObj?.id} />
           
               <button type="submit" className="btn btn-primary" >Save</button>
-              <button type="reset" className="btn btn-primary"> {this.state.activeObj?.activeId}</button>
+              <button type="reset" className="btn btn-primary" onClick={this.reset}> Reset</button>
             </Form>
       );
     }
@@ -94,17 +88,31 @@ class MyForm extends React.Component {
         e.preventDefault();
         this.props.parent.editStudent(
             "form",
-            "add",
+            "edit",
             { 
-                "id": this.theID,
+                "id": Number(e.target.id.value),
                 "fullname":  e.target.fullname.value,
                 "email": e.target.email.value,
-                "age": e.target.age.value,
-                "mark":e.target.mark.value
-            }
+                "age": Number(e.target.age.value),
+                "mark": Number(e.target.mark.value)
+            },
+            () => {this.setState({activeObj : this.newActiveObj()} )}
         );
-        this.theID++;
         return false;
+    }
+
+    reset(e) {
+      this.props.parent.editStudent("form", "reset")
+    }
+
+    newActiveObj() {
+      return {
+        id: "",
+        fullname: "",
+        age: "",
+        mark: "",
+        email: ""
+      }
     }
   
   };
