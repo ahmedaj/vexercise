@@ -4,6 +4,7 @@ import './App.css';
 import MyForm from './MyFrom';
 import StudentsList from './StudentList';
 import updateService from './Service';
+import Intro from "./intro"
 
 class App extends React.Component {
 
@@ -64,16 +65,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-6">
-          <MyForm parent={this} activeObj={this.state.activeObj} />
-        </div>
+      <div>
+        <Intro />
+        <div className="row">
+          <div className="col-6">
+            <MyForm parent={this} activeObj={this.state.activeObj} />
+          </div>
           <div className="col-6">
           <StudentsList parent={ this } studentList={this.state.studentList} />
           {/* <button type="button" className="btn btn-primary" style={{marginRight:"2em"}}>Save to Server</button>
           <button type="button" className="btn btn-primary">Get from Server</button> */}
           </div>
         </div>
+      </div>
     );
   }
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	// "github.com/gin-gonic/contrib/static"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -16,19 +18,14 @@ type album struct {
 	Price  float64 `json:"price"`
 }
 
-// albums slice to seed record album data.
-var albums = []album{
-	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
-	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
-	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
-}
-
 func getIndexPage(c *gin.Context) {
+	c.Header("content-type", "text/html")
 	c.HTML(http.StatusOK, "index.html", nil)
 }
 
 func MyMiddleware(c *gin.Context) {
-	c.Writer.Header().Set("Content-Type", "application/json")
+	// c.Writer.Header().Set("Content-Type", "application/json")
+	c.Writer.Header().Set("Content-Type", "text/html")
 	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Header().Set("Access-Control-Max-Age", "86400")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
@@ -42,12 +39,8 @@ func main() {
 	ReadDB()
 	studentList = append(studentList, Student{ID: 12, FullName: " AHmed JARDAT", Age: 44, Email: "A@b.com", Mark: 44})
 	router := gin.Default()
+	router.Use(static.Serve("/", static.LocalFile("./fe/build", false)))
 	router.Use(MyMiddleware)
-
-	router.Static("/assets", "./assets")
-	router.LoadHTMLGlob("html/*.html")
-
-	router.GET("/", getIndexPage)
 
 	router.GET("/student", listStudents)
 	router.GET("/student/:id", listStudents)

@@ -7,24 +7,31 @@
   "mark": 25
  },
  {
-  "id": 18,
-  "fullname": "Ali2",
-  "email": "ahmed.jaradat@mawdoo3.com",
-  "age": 22,
-  "mark": 22
+  "id": 26,
+  "fullname": "Moath",
+  "email": "moath@m.com",
+  "age": 25,
+  "mark": 90
  },
  {
-  "id": 23,
-  "fullname": "I31",
-  "email": "i3@gmail.com",
-  "age": 20,
-  "mark": 45
+  "id": 12,
+  "fullname": " AHmed JARDAT",
+  "email": "A@b.com",
+  "age": 44,
+  "mark": 44
  },
  {
-  "id": 24,
-  "fullname": "U12",
-  "email": "u12@gmail.com",
+  "id": 27,
+  "fullname": "Ali",
+  "email": "ahlinux@gmail.com",
   "age": 23,
+  "mark": 78
+ },
+ {
+  "id": 28,
+  "fullname": "Tom",
+  "email": "tom@b.com",
+  "age": 30,
   "mark": 23
  }
 ]
